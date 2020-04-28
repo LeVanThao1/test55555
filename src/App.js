@@ -1,5 +1,5 @@
 import React, { Suspense, useEffect, useContext } from "react";
-import routes from './config/routes'
+import {privateRoute, publicRoute} from './config/routes'
 import ReactDOM from "react-dom";
 import {
   BrowserRouter as Router,
@@ -14,47 +14,21 @@ import PrivateRoute from "./components/PrivateRoute";
 import PublicRoute from "./components/PublicRoute";
 import { AuthContext } from "./context/authContext";
 
+
 const Components = {};
-for (const c of routes) {
+for (const c of privateRoute) {
+  Components[c.component] = React.lazy(() => import(`./pages/` + c.component));
+}
+
+for (const c of publicRoute) {
   Components[c.component] = React.lazy(() => import(`./pages/` + c.component));
 }
 const Menu = React.lazy(() => import(`./components/Menu`));
-const RouteWithSubRoutes = (route) => {
-  const C = Components[route.component];
-  console.log(route);
-  if(route.isProtected) {
-    return (
-      <Route
-        exact={route.exact} 
-        path={route.path}
-        render={() => (
-          <PrivateRoute isAuthenticated={route.auth}>
-            <Suspense fallback={null}>
-              <C />
-            </Suspense>
-          </PrivateRoute>
-        )}
-      />
-    )
-  } else {
-    return (
-      <Route
-        exact={route.computedMatch.isExact} 
-        path={route.path}
-        render={() => (
-          <PublicRoute isAuthenticated={route.auth}>
-            <Suspense fallback={null}>
-              <C />
-            </Suspense>
-          </PublicRoute>
-        )}
-      />
-    )
-  }
-}
+
 
 const token = window.localStorage.getItem("token");
 function App () {
+  console.log(privateRoute, publicRoute);
   // const { state, dispatch } = useContext(AppContext);
   const {login} = useAuth();
   const {state ,dispatch} = useContext(AuthContext);
@@ -62,11 +36,10 @@ function App () {
   console.log(local);
   console.log(token);
   console.log(state)
-  useEffect(() => {
-    console.log(1111)
-    if(token)
-      login({ type: SWITCH_AUTH_STATUS, payload: { status: true } });
-  }, [dispatch]);
+  // useEffect(() => {
+  //   if(token)
+  //     login({ type: SWITCH_AUTH_STATUS, payload: { status: true } });
+  // }, [dispatch]);
   console.log(state.isAuthenticated);
   console.log(local);
   return (
@@ -80,13 +53,45 @@ function App () {
       }
       {local ==='/' && state.isAuthenticated? (
         <Redirect to="/dashboard"></Redirect>
-      ) : ''}
+      ) :''}
       <Switch>
-      {
-        routes.map(route => (
-          <RouteWithSubRoutes key={route.path} {...route} auth={state.isAuthenticated}/>
-        ))
-      }
+      {privateRoute.map(c => {
+          const C = Components[c.component];
+          return (
+            <Route
+              key={c.path}
+              exact={c.exact}
+              path={c.path}
+              render={() => (
+                // Bao ve Route can authentication bang Redirect
+                <PrivateRoute isAuthenticated={state.isAuthenticated}>
+                  <Suspense fallback={null}>
+                    <C />
+                  </Suspense>
+                </PrivateRoute>
+              )}
+            />
+          ); 
+        })} 
+      {publicRoute.map(c => {
+          // Route khong can bao ve, nhung khong duoc truy cap khi da authenticated
+          const C = Components[c.component];
+          return (
+            <Route
+              key={c.path}
+              exact={c.exact}
+              path={c.path}
+              render={() => (
+                <PublicRoute isAuthenticated={state.isAuthenticated}>
+                  <Suspense fallback={null}>
+                    <C />
+                  </Suspense>
+                </PublicRoute>
+              )}
+            />
+          );
+        })}
+      
       </Switch>
     </Router>
   )

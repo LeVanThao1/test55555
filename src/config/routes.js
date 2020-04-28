@@ -1,20 +1,6 @@
 // isProtected: các route cần được bảo vệ
 // Có thể thêm giá trị vào đây
-export default [
-  // {
-  //   title: 'Dashboard | Sample App',
-  //   // component: '',
-  //   // path: '/',
-  //   // isProtected: false,
-  //   // exact: true
-  // },
-  {
-    title: 'Login Page | Sample App',
-    component: 'Login',
-    path: '/login',
-    isProtected: false,
-    exact: true
-  },
+export const privateRoute = [  
   {
     title: 'Dashboard | Sample App',
     component: 'Dashboard',
@@ -41,6 +27,15 @@ export default [
     component: 'FunctionFoo',
     path: '/functions/foo',
     isProtected: true,
+    exact: true
+  },
+]
+export const publicRoute = [
+  {
+    title: 'Login Page | Sample App',
+    component: 'Login',
+    path: '/login',
+    isProtected: false,
     exact: true
   },
   {

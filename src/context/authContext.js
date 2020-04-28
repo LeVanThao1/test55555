@@ -5,7 +5,8 @@ export const AuthContext = React.createContext(null);
 
 export const AuthProvider = ({ children }) => {
   // khởi tạo
-  const [state, dispatch] = useReducer(appReducer, {isAuthenticated: false});
+  const token = window.localStorage.getItem("token");
+  const [state, dispatch] = useReducer(appReducer, {isAuthenticated: token?true:false});
   return (
     <AuthContext.Provider value={{state, dispatch}}>
       {children}

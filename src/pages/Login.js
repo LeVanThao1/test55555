@@ -1,14 +1,16 @@
 import React from 'react'
-import { AppContext, SWITCH_AUTH_STATUS, appReducer } from "../reducer";
+// import { AppContext, SWITCH_AUTH_STATUS, appReducer } from "../reducer";
 import * as jwt from 'jsonwebtoken'
 import { useContext } from 'react';
 import { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import {useAuth} from "../context/userAuth";
 const Login = (props) => {
-  const { login } = useAuth();
+  const { login, state } = useAuth();
   const [password, setPassword] = useState('');
-
+  // if(state.isAuthenticated) {
+  //   return <Redirect to='/'></Redirect>
+  // }
   function onChange(e) {
     setPassword(e.target.value);
   }
