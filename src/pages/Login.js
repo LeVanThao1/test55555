@@ -1,12 +1,9 @@
 import React from 'react'
-// import { AppContext, SWITCH_AUTH_STATUS, appReducer } from "../reducer";
-import * as jwt from 'jsonwebtoken'
-import { useContext } from 'react';
 import { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import {useAuth} from "../context/userAuth";
 const Login = (props) => {
-  const { login, state } = useAuth();
+  const { login } = useAuth();
   const [password, setPassword] = useState('');
   // if(state.isAuthenticated) {
   //   return <Redirect to='/'></Redirect>
@@ -18,7 +15,7 @@ const Login = (props) => {
     e.preventDefault();
     if(password === "123") {
       login();
-      localStorage.setItem('token', JSON.stringify(jwt.sign(password, 'acexis')))
+      localStorage.setItem('token', JSON.stringify(password));
       setPassword('');
       return <Redirect to='/'></Redirect>
     }

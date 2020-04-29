@@ -1,6 +1,6 @@
-import { AuthProvider, AuthContext } from "./authContext";
+import { AuthContext } from "./authContext";
 import { useContext } from "react";
-export const SWITCH_AUTH_STATUS = "SWITCH_AUTH_STATUS";
+import { SWITCH_AUTH_STATUS } from './authReducer'
 export const useAuth = () => {
     const { state, dispatch } = useContext(AuthContext);
     const login = async () => {
