@@ -7,13 +7,13 @@ export const useAuth = () => {
         // làm gì đó ở đây
         await dispatch({ type: SWITCH_AUTH_STATUS, payload: { status: true } })
     }
-    const logout = () => {
+    const logout = async () => {
         // làm gì đó ở đây
-        dispatch({ type: SWITCH_AUTH_STATUS, payload: { status: false } })
+        await dispatch({ type: SWITCH_AUTH_STATUS, payload: { status: false } })
     }
     return {
         login,
         logout,
-        state
+        state,
     }
 }

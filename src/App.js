@@ -26,51 +26,54 @@ function App () {
   const {login} = useAuth();
   const {state ,dispatch} = useContext(AuthContext);
   const local = window.location.pathname;
+
   useEffect(() => {
     if(token === "123")
       login();
   }, [dispatch]);
+
   return (
     <Router>
       {/* Kiem tra de dieu huong khi nguoi dung truy cap vao index.html */}
-      {/* {state.isAuthenticated ? (
-      <Suspense fallback={null}>
-        <Menu />
-      </Suspense>
-      ) : ''
-      } */}
-      {local ==='/'? (
+      {local === '/'? (
         <Redirect to="/dashboard"></Redirect>
       ) : ''}
       <Switch>
       {routes.map(c => {
           const C = Components[c.component];
-          return c.isProtected? (
+          return (
             <Route
               key={c.path}
               exact={c.exact}
               path={c.path}
               render={() => (
+                c.isProtected?
                 <PrivateRoute isAuthenticated={state.isAuthenticated}>
                   <Suspense fallback={null}>
                     <C />
                   </Suspense>
-                </PrivateRoute>
-              )}
-            />
-          ): (<Route
-              key={c.path}
-              exact={c.exact}
-              path={c.path}
-              render={() => (
+                </PrivateRoute> :
                 <PublicRoute isAuthenticated={state.isAuthenticated}>
-                  <Suspense fallback={null}>
-                    <C />
-                  </Suspense>
-                </PublicRoute>
+                <Suspense fallback={null}>
+                  <C />
+                </Suspense>
+              </PublicRoute>
               )}
             />
-          ) 
+          )
+        //   : (<Route
+        //       key={c.path}
+        //       exact={c.exact}
+        //       path={c.path}
+        //       render={() => (
+        //         <PublicRoute isAuthenticated={state.isAuthenticated}>
+        //           <Suspense fallback={null}>
+        //             <C />
+        //           </Suspense>
+        //         </PublicRoute>
+        //       )}
+        //     />
+        //   ) 
         })}
         <Route path="*">
             <Suspense fallback={null}>       

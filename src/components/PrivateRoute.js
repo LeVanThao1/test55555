@@ -7,12 +7,8 @@ const Menu = React.lazy(() => import(`./Menu`));
 
 const PrivateRoute = props => {
   const { logout } = useAuth();
-
   if (!props.isAuthenticated) return <Redirect to="/login" />;
-  if(JSON.parse(localStorage.getItem("token")) !== "123") { 
-    logout(); 
-    return <Redirect to="/login" />
-  };
+  if(JSON.parse(localStorage.getItem("token")) !== "123") { logout(); return <Redirect to="/" />};
   return (
     <Fragment>
       <Suspense fallback={null}>

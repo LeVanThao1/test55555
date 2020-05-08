@@ -1,5 +1,6 @@
 import {appReducer} from "./authReducer";
 import  React, { useReducer } from "react";
+
 export const AuthContext = React.createContext(null);
 
 export const AuthProvider = ({ children }) => {
