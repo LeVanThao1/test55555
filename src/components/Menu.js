@@ -1,13 +1,14 @@
-import React from 'react'
-// import { AppContext, SWITCH_AUTH_STATUS } from "../reducer";
+import React, { useContext } from 'react'
 import { Link } from 'react-router-dom';
-import { useAuth } from '../context/userAuth';
+
+import { AuthContext } from '../context/authContext';
+import { SWITCH_AUTH_STATUS } from '../context/authReducer';
 
 const Menu = () => {
-  const { logout} = useAuth();
+  const { dispatch } = useContext(AuthContext);
   const onClick = () => {
     localStorage.removeItem('token')
-    logout();
+    dispatch({ type: SWITCH_AUTH_STATUS, payload: { status: false } })
   }
   return (
     <div>
@@ -22,4 +23,4 @@ const Menu = () => {
     </div>
   )
 }
-export default Menu;
+export default React.memo(Menu);
