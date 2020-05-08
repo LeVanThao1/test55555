@@ -5,9 +5,9 @@ import { useAuth } from '../context/userAuth';
 
 const Menu = () => {
   const { logout} = useAuth();
-  const onClick =() => {
+  const onClick = () => {
     localStorage.removeItem('token')
-    logout()
+    logout();
   }
   return (
     <div>
