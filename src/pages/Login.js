@@ -18,11 +18,11 @@ const Login = (props) => {
     if(password === "123") {
       dispatch({ type: SWITCH_AUTH_STATUS, payload: { status: true } });
       localStorage.setItem('token', JSON.stringify(password));
-      setPassword('');
       return <Redirect to='/'></Redirect>
     }
     setPassword('');
   }
+  
   return (
     <div>
       <form onSubmit={onSubmit}>

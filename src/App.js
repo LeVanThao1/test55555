@@ -20,16 +20,12 @@ const NotFound = React.lazy(() => import(`./pages/NotFound`));
 
 function App () {
   const { state } = useContext(AuthContext);
-  const local = window.location.pathname;
 
   return (
     <Router>
 
-      { local === '/' ? (
-        <Redirect to="/dashboard"></Redirect>
-      ) : '' }
-
       <Switch>
+        <Route exact path="/" render={() => <Redirect to="/dashboard" />} />
         { routes.map(c => {
           const C = Components[c.component];
           return (
@@ -57,7 +53,7 @@ function App () {
             <Suspense fallback={ null }>       
               <NotFound />
             </Suspense>
-          </Route>
+        </Route>
       </Switch>
     </Router>
   )

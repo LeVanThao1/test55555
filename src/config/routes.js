@@ -2,13 +2,6 @@
 // Có thể thêm giá trị vào đây
 export default [  
   {
-    title: 'Base URL',
-    component: '',
-    path: '/',
-    isProtected: true,
-    exact: true
-  },
-  {
     title: 'Login Page | Sample App',
     component: 'Login',
     path: '/login',
