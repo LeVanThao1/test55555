@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, useContext } from "react";
+import React, { Suspense, useContext } from "react";
 import routes from './config/routes'
 import {
   BrowserRouter as Router,
@@ -10,7 +10,6 @@ import {
 import PrivateRoute from "./components/PrivateRoute";
 import PublicRoute from "./components/PublicRoute";
 import { AuthContext } from "./context/authContext";
-import { SWITCH_AUTH_STATUS } from "./context/authReducer";
 
 const Components = {};
 for (const c of routes) {
@@ -19,16 +18,9 @@ for (const c of routes) {
 
 const NotFound = React.lazy(() => import(`./pages/NotFound`));
 
-const token = JSON.parse(localStorage.getItem("token")); 
-
 function App () {
-  const { state ,dispatch } = useContext(AuthContext);
+  const { state } = useContext(AuthContext);
   const local = window.location.pathname;
-
-  useEffect(() => {
-    if(token === "123")
-      dispatch({ type: SWITCH_AUTH_STATUS, payload: { status: true } })
-  }, [dispatch]);
 
   return (
     <Router>
